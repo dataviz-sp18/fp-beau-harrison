@@ -208,21 +208,6 @@ function getIdeology(senator) {
   return Number(senatorIdeology[senatorName])
 }
 
-let voteTitleDict
-let allvotes
-let voteresultDict
-
-d3.csv('data/senate-115-votes-summary.csv', (error, data3) => {
-  voteTitleDict = {}
-  allvotes = []
-  voteresultDict = {}
-  data3.forEach(point => {
-    voteTitleDict[point.vote_number] = point.title
-    voteresultDict[point.vote_number] = point.result
-    allvotes.push(point.vote_number)
-  })
-})
-
 let senIdDict
 let senIdColor
 let idSenatorDict
