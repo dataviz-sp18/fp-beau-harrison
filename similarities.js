@@ -3,14 +3,6 @@
 
 /* global d3 */
 
-function $(query) {
-  if (typeof query === 'object') return query
-
-  const result = document.querySelectorAll(query)
-
-  return result[1] ? result : result[0]
-}
-
 const margin = { top: 0, right: 0, bottom: 0, left: 0 }
 const width = 900 - margin.left - margin.right
 const height = 430 - margin.top - margin.bottom
@@ -71,9 +63,9 @@ svg
 const bluffCircles = { I: '#83BF17', R: '#F15D58', D: '#59C8DF' }
 
 const legCircles = [
-  { cx: 465, cy: 180, col: '#F15D58', party: 'Rep' },
-  { cx: 505, cy: 180, col: '#59C8DF', party: 'Dem' },
-  { cx: 545, cy: 180, col: '#83BF17', party: 'Ind' },
+  { cx: 465, cy: 182, col: '#F15D58', party: 'Rep' },
+  { cx: 505, cy: 182, col: '#59C8DF', party: 'Dem' },
+  { cx: 550, cy: 182, col: '#83BF17', party: 'Ind' },
 ]
 
 svg
@@ -122,6 +114,7 @@ svg
   .attr('x', 300)
   .attr('dy', (m, i) => i * 15)
   .attr('y', 100)
+  .attr('text-anchor', 'middle')
   .style('fill', bluffCircles.R)
   .style('font-weight', 'bold')
 
@@ -134,6 +127,7 @@ svg
   .attr('x', 300)
   .attr('dy', (m, i) => i * 15)
   .attr('y', 300)
+  .attr('text-anchor', 'middle')
   .style('fill', bluffCircles.R)
   .style('font-weight', 'bold')
 
@@ -146,7 +140,7 @@ svg
   .attr('x', 100)
   .attr('dy', (m, i) => i * 15)
   .attr('y', 100)
-  .attr('text-anchor', 'end')
+  .attr('text-anchor', 'middle')
   .style('fill', bluffCircles.D)
   .style('font-weight', 'bold')
 
@@ -197,7 +191,7 @@ radiusListJaro.forEach(point => {
     .attr('class', 'senator')
     .attr('x', originX + (compressor - point * compressor) + 1.5)
     .attr('y', originY)
-    .style('font-size', '6.5px')
+    .style('font-size', '8px')
     .text(`${point * 100}%`)
 })
 
@@ -286,7 +280,7 @@ function sessionsOrStrange(target) {
 function visualupdate(senator) {
   d3.selectAll('.othersenator').remove()
   d3.selectAll('.senatorname').remove()
-  d3.select('.othersenatorname').remove()
+  d3.selectAll('.othersenatorname').remove()
   d3.select('.jaroheader').remove()
   d3.select('.jaroheadernum').remove()
 
@@ -338,13 +332,13 @@ function visualupdate(senator) {
         if (sessionsOrStrange(this)) {
           return -100
         }
-        return $(this).getAttribute('cx')
+        return this.getAttribute('cx')
       })
       .attr('cy', function() {
         if (sessionsOrStrange(this)) {
           return -100
         }
-        return $(this).getAttribute('cy')
+        return this.getAttribute('cy')
       })
       .attr('opacity', function() {
         if (sessionsOrStrange(this)) {
@@ -370,7 +364,7 @@ function visualupdate(senator) {
         return (
           originX +
           (compressor - curSenDict[this.dataset.senator] * compressor) *
-            Math.sin(-1 * getIdeology(this.dataset.senator) * 2 * Math.PI)
+            Math.sin(-0.99 * getIdeology(this.dataset.senator) * 2 * Math.PI)
         )
       })
       .attr('cy', function() {
@@ -380,7 +374,7 @@ function visualupdate(senator) {
         return (
           originY -
           (compressor - curSenDict[this.dataset.senator] * compressor) *
-            Math.cos(-1 * getIdeology(this.dataset.senator) * 2 * Math.PI)
+            Math.cos(-0.99 * getIdeology(this.dataset.senator) * 2 * Math.PI)
         )
       })
       .attr('stroke', 'black')
@@ -389,10 +383,10 @@ function visualupdate(senator) {
     d3
       .select(`#${senIdDict[senator]}`)
       .attr('cx', function() {
-        return $(this).getAttribute('cx')
+        return this.getAttribute('cx')
       })
       .attr('cy', function() {
-        return $(this).getAttribute('cy')
+        return this.getAttribute('cy')
       })
       .transition()
       .duration(500)
@@ -474,7 +468,7 @@ function visualupdate(senator) {
       .attr('class', 'tspancls')
       .attr('x', 460)
       .attr('dy', (m, i) => i * 15)
-      .attr('y', 267.5)
+      .attr('y', 268.5)
 
     function cosenator(otherSenator, otherSenatorX, otherSenatorY, otherSenatorJaro) {
       d3
@@ -529,7 +523,7 @@ function visualupdate(senator) {
         .transition()
         .duration(1000)
         .ease(d3.easePoly)
-        .attr('x', 560)
+        .attr('x', 600)
         .attr('y', 197.5)
 
       svg
@@ -541,7 +535,7 @@ function visualupdate(senator) {
         .transition()
         .duration(1000)
         .ease(d3.easePoly)
-        .attr('cx', 585)
+        .attr('cx', 625)
         .attr('cy', 222)
         .attr('r', 22)
         .attr('fill', 'none')
@@ -556,7 +550,7 @@ function visualupdate(senator) {
           return d3.wordwrap(otherSenatorName, 50)
         })
         .attr('class', 'tspancls')
-        .attr('x', 560)
+        .attr('x', 600)
         .attr('dy', (m, i) => i * 15)
         .attr('y', 257.5)
 
@@ -568,9 +562,9 @@ function visualupdate(senator) {
           return d3.wordwrap(`Ideology score: ${getIdeology(otherSenatorName).toFixed(2)}`, 50)
         })
         .attr('class', 'tspancls')
-        .attr('x', 560)
+        .attr('x', 600)
         .attr('dy', (m, i) => i * 15)
-        .attr('y', 267.5)
+        .attr('y', 268.5)
 
       svg
         .append('text')
@@ -580,7 +574,7 @@ function visualupdate(senator) {
           return d3.wordwrap(aboutJaro, 50)
         })
         .attr('class', 'tspancls')
-        .attr('x', 520)
+        .attr('x', 560)
         .attr('dy', (m, i) => i * 15)
         .attr('y', 290.5)
 
@@ -592,23 +586,23 @@ function visualupdate(senator) {
           return d3.wordwrap(aboutJaro, 50)
         })
         .attr('class', 'tspancls')
-        .attr('x', 475)
+        .attr('x', 515)
         .attr('dy', (m, i) => i * 15)
         .attr('y', 315.5)
     }
 
     d3.selectAll('.senators').on('click', function() {
-      const otherSenator = $(this).dataset.senator
-      const otherSenatorX = $(this).getAttribute('cx')
-      const otherSenatorY = $(this).getAttribute('cy')
-      const otherSenatorJaro = $(this).dataset.jaro
+      const otherSenator = this.dataset.senator
+      const otherSenatorX = this.getAttribute('cx')
+      const otherSenatorY = this.getAttribute('cy')
+      const otherSenatorJaro = this.dataset.jaro
       return cosenator(otherSenator, otherSenatorX, otherSenatorY, otherSenatorJaro)
     })
   })
 }
 
-$('.selectpicker').addEventListener('change', function() {
-  const selected = $(this)[$(this).selectedIndex]
+document.querySelector('.selectpicker').addEventListener('change', function() {
+  const selected = this[this.selectedIndex]
   const senator = selected.value
 
   return visualupdate(senator)
