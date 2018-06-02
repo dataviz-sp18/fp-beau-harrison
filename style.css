@@ -5,7 +5,7 @@ body {
 }
 
 #senatorSimilarity {
-  width: 90vw;
+  width: 80vw;
   padding-top: 5vh;
 }
 
@@ -29,7 +29,7 @@ label {
 
 #senatorForm {
   display: grid;
-  max-width: 10vw;
+  justify-content: end;
 }
 
 #myModal[aria-hidden="true"] {
