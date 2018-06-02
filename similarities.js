@@ -117,6 +117,8 @@ svg
   .attr('text-anchor', 'middle')
   .style('fill', bluffCircles.R)
   .style('font-weight', 'bold')
+  .style('stroke', 'black')
+  .style('stroke-width', 0.3)
 
 svg
   .append('text')
@@ -130,6 +132,8 @@ svg
   .attr('text-anchor', 'middle')
   .style('fill', bluffCircles.R)
   .style('font-weight', 'bold')
+  .style('stroke', 'black')
+  .style('stroke-width', 0.3)
 
 svg
   .append('text')
@@ -143,6 +147,8 @@ svg
   .attr('text-anchor', 'middle')
   .style('fill', bluffCircles.D)
   .style('font-weight', 'bold')
+  .style('stroke', 'black')
+  .style('stroke-width', 0.3)
 
 svg
   .append('text')
@@ -156,6 +162,8 @@ svg
   .attr('text-anchor', 'middle')
   .style('fill', bluffCircles.D)
   .style('font-weight', 'bold')
+  .style('stroke', 'black')
+  .style('stroke-width', 0.3)
 
 svg
   .selectAll('.legtext')
@@ -340,8 +348,8 @@ function visualupdate(senator) {
       .transition()
       .duration(500)
       .delay((d, i) => i * 5)
+      .attr('r', 3.5)
       .ease(d3.easePoly)
-      .attr('r', 5)
       .attr('cx', function() {
         if (sessionsOrStrange(this)) {
           return -100
