@@ -33,6 +33,7 @@ svg
   .attr('x', 460)
   .attr('dy', (m, i) => i * 15)
   .attr('y', 12.5)
+  .style('font-weight', 'bold')
 
 svg
   .append('text')
