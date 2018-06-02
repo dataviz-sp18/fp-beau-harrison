@@ -194,13 +194,15 @@ radiusListJaro.forEach(point => {
     .attr('stroke-dasharray', '2,2')
     .attr('stroke-dashoffset', 0)
 
-  svg
-    .append('text')
-    .attr('class', 'senator')
-    .attr('x', originX + (compressor - point * compressor) + 1.5)
-    .attr('y', originY)
-    .style('font-size', '8px')
-    .text(`${point * 100}%`)
+  if (!((point * 10) % 2)) {
+    svg
+      .append('text')
+      .attr('class', 'senator')
+      .attr('x', originX + (compressor - point * compressor) + 1.5)
+      .attr('y', originY)
+      .style('font-size', '8px')
+      .text(`${point * 100}%`)
+  }
 })
 
 const senatorIdeology = {}
