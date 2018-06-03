@@ -279,6 +279,7 @@ function visualupdate(senator) {
   d3.selectAll('.othersenatorname').remove()
   d3.select('.jaroheader').remove()
   d3.select('.jaroheadernum').remove()
+  d3.select('.ideologyQuadrant').remove()
 
   d3
     .selectAll('.senatorimage')
@@ -394,6 +395,40 @@ function visualupdate(senator) {
       .attr('stroke-width', 2.5)
       .attr('data-original-title', () => senator)
 
+    const arc = d3
+      .arc()
+      .innerRadius(0)
+      .outerRadius(200)
+      .startAngle(-1 * (Math.PI / 72))
+      .endAngle(Math.PI / 72)
+
+    function quadrantColor(name) {
+      const ideoScore = getIdeology(name)
+      let returnColor = 'grey'
+
+      if (ideoScore <= 1 && ideoScore >= 0.5) {
+        returnColor = bluffCircles.R
+      } else if (ideoScore >= 0) {
+        returnColor = bluffCircles.D
+      }
+
+      return returnColor
+    }
+
+    function ideologyQuadrant(name) {
+      const ideoScore = getIdeology(name)
+
+      return -1 * ideoScore * 360
+    }
+
+    svg
+      .append('path')
+      .attr('class', 'ideologyQuadrant')
+      .attr('d', arc)
+      .attr('transform', `translate(200,200) rotate(${ideologyQuadrant(senator)})`)
+      .style('fill', quadrantColor(senator))
+      .style('opacity', 0.4)
+
     svg
       .append('filter')
       .attr('id', 'Rep')
@@ -431,6 +466,17 @@ function visualupdate(senator) {
       .attr('height', 50)
       .attr('x', 460)
       .attr('y', 197.5)
+
+    svg
+      .append('image')
+      .attr('class', 'senatorimage')
+      .attr('filter', () => 'url("#Gen")')
+      .attr('opacity', 1)
+      .attr('xlink:href', () => `images/${imageIdDict[senator]}.jpegcopy.png`)
+      .attr('width', 21)
+      .attr('height', 21)
+      .attr('x', 190)
+      .attr('y', 190)
 
     svg
       .append('circle')
